@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import WarningIcon from '@mui/icons-material/Warning';
 import clsx from 'clsx';
-import { withStyles } from '@mui/material/styles';
+import { withStyles } from '../makeStylesCompat';
 
 const variantIcon = {
   success: CheckCircleIcon,

@@ -12,7 +12,7 @@ import Snackbar from '@mui/material/Snackbar';
 import SnackbarContentWrapper from './SnackbarContentWrapper';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
-import { withStyles } from '@mui/material/styles';
+import { withStyles } from '../makeStylesCompat';
 
 const styles = ({ palette, shape, spacing }) => ({
   '@keyframes progress': {

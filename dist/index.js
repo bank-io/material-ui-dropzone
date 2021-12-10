@@ -16,6 +16,7 @@ var _getPrototypeOf = _interopDefault(require('@babel/runtime/helpers/getPrototy
 var _objectWithoutProperties = _interopDefault(require('@babel/runtime/helpers/objectWithoutProperties'));
 var PropTypes = _interopDefault(require('prop-types'));
 var React = require('react');
+var React__default = _interopDefault(React);
 var AttachFileIcon = _interopDefault(require('@mui/icons-material/AttachFile'));
 var CloudUploadIcon = _interopDefault(require('@mui/icons-material/CloudUpload'));
 var Dropzone = _interopDefault(require('react-dropzone'));
@@ -25,6 +26,7 @@ var Fab = _interopDefault(require('@mui/material/Fab'));
 var Grid = _interopDefault(require('@mui/material/Grid'));
 var Typography = _interopDefault(require('@mui/material/Typography'));
 var clsx = _interopDefault(require('clsx'));
+var tssReact = require('tss-react');
 var styles$3 = require('@mui/material/styles');
 var Snackbar = _interopDefault(require('@mui/material/Snackbar'));
 var CheckCircleIcon = _interopDefault(require('@mui/icons-material/CheckCircle'));
@@ -113,6 +115,45 @@ function readFile(file) {
     reader.readAsDataURL(file);
   });
 }
+
+var _createMakeAndWithSty = tssReact.createMakeAndWithStyles({
+  useTheme: styles$3.useTheme
+  /*
+  OR, if you have extended the default mui theme adding your own custom properties: 
+  Let's assume the myTheme object that you provide to the <ThemeProvider /> is of 
+  type MyTheme then you'll write:
+  */
+  //"useTheme": useTheme as (()=> MyTheme)
+
+}),
+    tssMakeStyles = _createMakeAndWithSty.makeStyles,
+    tssWithStyles = _createMakeAndWithSty.withStyles;
+
+var makeStyles = function makeStyles(styles) {
+  var useStyles = tssMakeStyles()(styles);
+  return function (props) {
+    var _useStyles = useStyles(props),
+        classes = _useStyles.classes;
+
+    return classes;
+  };
+};
+var withStyles = function withStyles() {
+  var styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return function (ComponentToWrap) {
+    var useStyles = styles ? makeStyles(styles) : null;
+    return /*#__PURE__*/React__default.forwardRef(function (props, ref) {
+      var classes = useStyles ? useStyles(props) : null;
+      var theme = options.withTheme ? styles$3.useTheme() : undefined;
+      return /*#__PURE__*/React__default.createElement(ComponentToWrap, _extends({
+        ref: ref,
+        classes: classes,
+        theme: theme
+      }, props));
+    });
+  };
+};
 
 var styles = function styles(_ref) {
   var palette = _ref.palette,
@@ -230,7 +271,7 @@ process.env.NODE_ENV !== "production" ? PreviewList.propTypes = {
   showFileNames: PropTypes.bool,
   useChipsForPreview: PropTypes.bool
 } : void 0;
-var PreviewList$1 = styles$3.withStyles(styles, {
+var PreviewList$1 = withStyles(styles, {
   name: 'MuiDropzonePreviewList'
 })(PreviewList);
 
@@ -307,7 +348,7 @@ process.env.NODE_ENV !== "production" ? SnackbarContentWrapper.propTypes = {
   onClose: PropTypes.func,
   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired
 } : void 0;
-var SnackbarContentWrapper$1 = styles$3.withStyles(styles$1, {
+var SnackbarContentWrapper$1 = withStyles(styles$1, {
   name: 'MuiDropzoneSnackbar'
 })(SnackbarContentWrapper);
 
@@ -924,7 +965,7 @@ process.env.NODE_ENV !== "production" ? DropzoneAreaBase.propTypes = {
    */
   onAlert: PropTypes.func
 } : void 0;
-var DropzoneAreaBase$1 = styles$3.withStyles(styles$2, {
+var DropzoneAreaBase$1 = withStyles(styles$2, {
   name: 'MuiDropzoneArea'
 })(DropzoneAreaBase);
 

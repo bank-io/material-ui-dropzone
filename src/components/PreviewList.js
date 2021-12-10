@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
-import { withStyles } from '@mui/material/styles';
+import { withStyles } from '../makeStylesCompat';
 
 const styles = ({ palette, shape, spacing }) => ({
   root: {},

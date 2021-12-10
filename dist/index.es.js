@@ -9,7 +9,7 @@ import _possibleConstructorReturn from '@babel/runtime/helpers/possibleConstruct
 import _getPrototypeOf from '@babel/runtime/helpers/getPrototypeOf';
 import _objectWithoutProperties from '@babel/runtime/helpers/objectWithoutProperties';
 import PropTypes from 'prop-types';
-import { createElement, Fragment, PureComponent } from 'react';
+import React__default, { createElement, Fragment, PureComponent } from 'react';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Dropzone from 'react-dropzone';
@@ -19,7 +19,8 @@ import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
-import { withStyles } from '@mui/material/styles';
+import { createMakeAndWithStyles } from 'tss-react';
+import { useTheme } from '@mui/material/styles';
 import Snackbar from '@mui/material/Snackbar';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
@@ -107,6 +108,45 @@ function readFile(file) {
     reader.readAsDataURL(file);
   });
 }
+
+var _createMakeAndWithSty = createMakeAndWithStyles({
+  useTheme: useTheme
+  /*
+  OR, if you have extended the default mui theme adding your own custom properties: 
+  Let's assume the myTheme object that you provide to the <ThemeProvider /> is of 
+  type MyTheme then you'll write:
+  */
+  //"useTheme": useTheme as (()=> MyTheme)
+
+}),
+    tssMakeStyles = _createMakeAndWithSty.makeStyles,
+    tssWithStyles = _createMakeAndWithSty.withStyles;
+
+var makeStyles = function makeStyles(styles) {
+  var useStyles = tssMakeStyles()(styles);
+  return function (props) {
+    var _useStyles = useStyles(props),
+        classes = _useStyles.classes;
+
+    return classes;
+  };
+};
+var withStyles = function withStyles() {
+  var styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return function (ComponentToWrap) {
+    var useStyles = styles ? makeStyles(styles) : null;
+    return /*#__PURE__*/React__default.forwardRef(function (props, ref) {
+      var classes = useStyles ? useStyles(props) : null;
+      var theme = options.withTheme ? useTheme() : undefined;
+      return /*#__PURE__*/React__default.createElement(ComponentToWrap, _extends({
+        ref: ref,
+        classes: classes,
+        theme: theme
+      }, props));
+    });
+  };
+};
 
 var styles = function styles(_ref) {
   var palette = _ref.palette,
